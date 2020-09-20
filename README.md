@@ -11,7 +11,7 @@ SilverStripe 4
 ```php
 // 1. Create a callable function that returns an array of options for the DependentDropdownField. 
 // When the value of the field it depends on changes, this function is called passing the 
-// updated value as the first parameter ($val)
+// updated value as the first parameter ($val, $current)
 $datesSource = function($val) {	
 	if ($val == 'one') {
 		// return appropriate options array if the value is one.
