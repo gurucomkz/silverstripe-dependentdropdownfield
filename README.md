@@ -15,10 +15,10 @@ composer require sheadawson/silverstripe-dependentdropdownfield
 ## Usage example
 
 ```php
-// 1. Create a callable function that returns an array of options for the DependentDropdownField.
-// When the value of the field it depends on changes, this function is called passing the
-// updated value as the first parameter ($val)
-$datesSource = function($val) {
+// 1. Create a callable function that returns an array of options for the DependentDropdownField. 
+// When the value of the field it depends on changes, this function is called passing the 
+// updated value as the first parameter ($val, $current)
+$datesSource = function($val) {	
 	if ($val == 'one') {
 		// return appropriate options array if the value is one.
 	}
