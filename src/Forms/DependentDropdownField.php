@@ -71,11 +71,11 @@ class DependentDropdownField extends DropdownField
         $response = new HTTPResponse();
         $response->addHeader('Content-Type', 'application/json');
 
-        $items = call_user_func($this->sourceCallback, $request->getVar('val'));
+        $items = call_user_func($this->sourceCallback, $request->getVar('val'), $this->Value());
         $results = [];
         if ($items) {
             foreach ($items as $k => $v) {
-                $results[] = ['k' => $k, 'v' => $v];
+                $results[] = ['k' => $k, 'v' => $v ] + ($k==$this->Value() ? ['selected'=>true]:[]);
             }
         }
 
@@ -141,7 +141,7 @@ class DependentDropdownField extends DropdownField
         if (!$val) {
             $source = [];
         } else {
-            $source = call_user_func($this->sourceCallback, $val);
+            $source = call_user_func($this->sourceCallback, $val, $this->Value());
             if ($source instanceof Map) {
                 $source = $source->toArray();
             }
