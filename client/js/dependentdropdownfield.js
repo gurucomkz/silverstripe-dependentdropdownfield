@@ -4,6 +4,7 @@ jQuery.entwine("dependentdropdown", function ($) {
 	$(":input.dependent-dropdown").entwine({
 		onmatch: function () {
 			var drop = this;
+			var initialDependsVal = drop.attr('data-depends-initial');
 
             this.parents('.field:first').addClass('dropdown');
             var checkInit = function() {
@@ -38,14 +39,18 @@ jQuery.entwine("dependentdropdown", function ($) {
                         });
                     }
                 };
-                query.call(depends);
+                if(depends.val() != initialDependsVal) {
+                    query.call(depends);
+                }
                 depends.change(query);
 
                 if (!depends.val()) {
                     drop.disable(drop.data('unselected'));
                 }
             }
-            drop.disable(drop.data('unselected'));
+            if(!initialDependsVal) {
+                drop.disable(drop.data('unselected'));
+            }
             checkInit();
 		},
 		disable: function (text) {
