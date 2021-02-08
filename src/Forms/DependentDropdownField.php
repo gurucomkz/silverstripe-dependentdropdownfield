@@ -193,6 +193,9 @@ class DependentDropdownField extends DropdownField
         if ($this->Value()) {
             $this->setAttribute('data-initial', $this->Value()); //otherwise let it be 'undefined' to be equal to null
         }
+        if ($depVal = $this->depends->Value()) {
+            $this->setAttribute('data-depends-initial', $depVal); //otherwise let it be 'undefined' to be equal to null
+        }
 
         return parent::Field($properties);
     }
