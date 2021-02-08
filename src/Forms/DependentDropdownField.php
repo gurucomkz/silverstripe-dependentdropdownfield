@@ -190,6 +190,9 @@ class DependentDropdownField extends DropdownField
         $this->setAttribute('data-depends', $this->getDepends()->getName());
         $this->setAttribute('data-empty', $this->getEmptyString());
         $this->setAttribute('data-unselected', $this->getUnselectedString());
+        if ($this->Value()) {
+            $this->setAttribute('data-initial', $this->Value()); //otherwise let it be 'undefined' to be equal to null
+        }
 
         return parent::Field($properties);
     }
