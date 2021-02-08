@@ -31,7 +31,10 @@ jQuery.entwine("dependentdropdown", function ($) {
                             $.each(data, function () {
                                 drop.append($("<option />").val(this.k).text(this.v).prop('selected',!!this.selected));
                             });
-                            drop.trigger("liszt:updated").trigger("chosen:updated").trigger("change");
+                            drop.trigger("liszt:updated").trigger("chosen:updated");
+                            if(drop.val() != drop.attr('data-initial')) {
+                                drop.trigger("change");
+                            }
                         });
                     }
                 };
