@@ -1,8 +1,37 @@
 jQuery.entwine("dependentdropdown", function ($) {
 
+    var loaderParentID = 'dependent_dropdown_loading';
+    var getLoaderParent = function(){
+        return document.getElementById(loaderParentID);
+    }
+    var mkLoaderPlate = function() {
+        if(getLoaderParent()) return;
+        $('#Form_ItemEditForm').append(
+            $('<div id="'+loaderParentID+'"></div>')
+        )
+    };
+    var loadingFor = 0;
+    var loaderDisplay = null;
+    var addLoading = function(){
+        loadingFor++;
+        if(loadingFor===1) {
+            loaderDisplay = ReactDom.render(
+                React.createElement(Loading.default, {}, null),
+                getLoaderParent()
+            );
+        }
+    };
+    var removeLoading = function(){
+        loadingFor--;
+        if(loadingFor < 1) {
+            ReactDom.unmountComponentAtNode(getLoaderParent());
+            loadingFor = 0;
+        }
+    };
 
 	$(":input.dependent-dropdown").entwine({
 		onmatch: function () {
+            mkLoaderPlate();
 			var drop = this;
 			var initialDependsVal = drop.attr('data-depends-initial');
 
@@ -19,10 +48,12 @@ jQuery.entwine("dependentdropdown", function ($) {
                     } else {
                         drop.disable("Loading...");
 
+                        addLoading();
                         $.get(drop.data('link'), {
                             val: value
                         },
                         function (data) {
+                            removeLoading();
                             drop.enable();
 
                             if (drop.data('empty') || drop.data('empty') === "") {
