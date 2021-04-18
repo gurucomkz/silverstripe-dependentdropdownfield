@@ -6,13 +6,22 @@ jQuery.entwine("dependentdropdown", function ($) {
     }
     var mkLoaderPlate = function() {
         if(getLoaderParent()) return;
-        $('#Form_ItemEditForm').append(
+        var formCandidate = $('#Form_ItemEditForm');
+        if(!formCandidate.length) {
+            formCandidate = $('form.cms-edit-form');
+        }
+        $(formCandidate).append(
             $('<div id="'+loaderParentID+'"></div>')
         )
     };
     var loadingFor = 0;
     var loaderDisplay = null;
     var addLoading = function(){
+        var loaderParent = getLoaderParent();
+        if(!loaderParent) {
+            console.warn("Cannot find a parent for a loader. Counting dependent dropdown requests and using overlay is disabled.");
+            return;
+        }
         loadingFor++;
         if(loadingFor===1) {
             loaderDisplay = ReactDom.render(
